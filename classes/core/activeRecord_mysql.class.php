@@ -11,7 +11,7 @@ class activeRecord extends component {
     private $_table;
 
     public function __construct() {
-        $this->connector = new mysqli($this->_host, $this->_login, $this->_password, $this->_database);
+        $this->_connector = new mysqli($this->_host, $this->_login, $this->_password, $this->_database);
         $this->_table = get_class($this);
     }
 
