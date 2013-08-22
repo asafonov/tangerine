@@ -28,7 +28,7 @@ class registry {
     }
 
     private function _getObject($name) {
-        $classname = $this_>services[$name];
+        $classname = $this->services[$name];
         if (!$classname) $classname = $name;
         if (class_exists($classname)) {
             $this->objects[$name] = new $classname();
