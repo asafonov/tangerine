@@ -35,7 +35,7 @@ class request extends component {
 
     private function _findPage() {
         $this->data['params'] = array();
-        $chunks = explode('/', $_SERVER['PHP_SELF']);
+        $chunks = explode('/', str_replace('?'.$_SERVER['QUERY_STRING'], '', $_SERVER['REQUEST_URI']));
         while (count($chunks)>0) {
             $url = '/'.implode($chunks);
             if (isset($this->pages[$url])) {
