@@ -19,6 +19,23 @@ class activeRecord extends component {
         $this->_table = get_class($this);
     }
 
+    public function init($data=array()) {
+        if (count($data)>0) {
+            foreach ($data as $k=>$v) {
+                $method_name = 'set'.$k;
+                if (method_exists($this, $method_name)) {
+                    $this->$method_name($v);
+                } elseif (property_exists($this, $k)) {
+                    if (is_array($this->$k)) {
+                        $this->$k = unserialize($v);
+                    } else {
+                        $this->$k = $v;
+                    }
+                }
+            }
+        }
+    }
+
     public function setId($value) {
         if ($value!=$this->id) {
             $this->id = $value;
@@ -66,7 +83,7 @@ class activeRecord extends component {
             $sql_values = 'values ('.$this->id;
             foreach ($spam as $k=>$v) {
                 $sql .= ', '.$k;
-                $sql_values .= ", '$v'";
+                $sql_values .= ", '".is_array($v)?serialize($v):$v."'";
             }
             $sql = $sql.') '.$sql_values.')';
         }
