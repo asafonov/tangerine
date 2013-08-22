@@ -12,6 +12,12 @@ class user extends activeRecord {
     private $country;
     private $city;
 
+    public function __construct() {
+    }
+
+    public function create($data = array()) {
+    }
+
 }
 
 ?>
