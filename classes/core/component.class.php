@@ -7,7 +7,10 @@ class component {
     public function init($data=array()) {
         if (count($data)>0) {
             foreach ($data as $k=>$v) {
-                if (property_exists($this, $k)) {
+                $method_name = 'set'.$k;
+                if (method_exists($this, $method_name)) {
+                    $this->$method_name($v);
+                } elseif (property_exists($this, $k)) {
                     $this->$k = $v;
                 }
             }
