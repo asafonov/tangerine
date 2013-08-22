@@ -1,4 +1,4 @@
 AddDefaultCharset utf-8
 RewriteEngine   on
 RewriteCond %{REQUEST_URI}  ^([\w\d:%\/]*)$
-RewriteRule ^(.*)$      /test.php  [last] 
+RewriteRule ^(.*)$      /index.php  [last] 
