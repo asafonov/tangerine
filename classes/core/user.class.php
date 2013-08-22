@@ -11,8 +11,22 @@ class user extends activeRecord {
     private $photo;
     private $country;
     private $city;
+    private $_crypt;
 
     public function __construct() {
+        $this->_crypt = new crypt();
+    }
+
+    public function init($data = array()) {
+        if (count($data)>0) {
+            foreach ($data as $k=>$v) {
+                if ($k=='password') {
+                    $this->password = $this->_crypt->hash($v);
+                } elseif (property_exists($this, $k)) {
+                    $this->$k = $v;
+                }
+            }
+        }
     }
 
     public function create($data = array()) {
@@ -21,6 +35,17 @@ class user extends activeRecord {
         }
         $this->init($data);
         $this->save();
+    }
+
+    public function login($login, $password) {
+        $user = new user();
+        $user->load(array('login'=>$login));
+        if ($user->password == $this->_crypt->hash($password)) {
+            $this->id = $user->id;
+            return true;
+        } else {
+            return false;
+        }
     }
 
 }
