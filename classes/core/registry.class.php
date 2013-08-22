@@ -4,9 +4,10 @@ class registry {
 
     private static $instance;
     private $objects;
+    private $services;
 
     public function __construct() {
-        ;
+        $this->services = config::getValue('services');
     }
 
     public static function getInstance(){
@@ -27,7 +28,7 @@ class registry {
     }
 
     private function _getObject($name) {
-        $classname = config::getValue('services')[$name];
+        $classname = $this_>services[$name];
         if (!$classname) $classname = $name;
         if (class_exists($classname)) {
             $this->objects[$name] = new $classname();
