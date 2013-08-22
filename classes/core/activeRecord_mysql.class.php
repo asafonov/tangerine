@@ -20,8 +20,10 @@ class activeRecord extends component {
     }
 
     public function setId($value) {
-        $this->id = $value;
-        $this->load();
+        if ($value!=$this->id) {
+            $this->id = $value;
+            $this->load();
+        }
     }
 
     public function load($criteria = null) {

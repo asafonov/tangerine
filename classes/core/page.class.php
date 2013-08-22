@@ -10,8 +10,10 @@ class page extends activeRecord {
     private $layout;
 
     public function setUrl($url) {
-        $this->url = $url;
-        $this->load(array('url'=>$url));
+        if ($url!=$this->url) {
+            $this->url = $url;
+            $this->load(array('url'=>$url));
+        }
     }
 }   
 
