@@ -8,12 +8,28 @@ class page extends activeRecord {
     private $url;
     private $name;
     private $layout;
+    private $blocks = array();
 
     public function setUrl($url) {
         if ($url!=$this->url) {
             $this->url = $url;
             $this->load(array('url'=>$url));
         }
+    }
+
+    
+    public function display() {
+        if (count($this->blocks)==0) {
+            return false;
+        }
+        foreach ($this->blocks as $k=>$v) {
+            $classname = $v['type'].'Controller';
+            unset($spam);
+            $spam = new $classname();
+            $blocks[$k] = $spam->run($v['data']);
+        }
+        $template = new template($this->layout);
+        return $template->fill($block);
     }
 }   
 
