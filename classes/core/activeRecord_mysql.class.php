@@ -25,7 +25,7 @@ class activeRecord extends component {
     }
 
     public function load($criteria = null) {
-        if ($criteria = null) {
+        if ($criteria == null) {
             if ($this->id) {
                 $criteria = array('id'=>$this->id);
             } else {

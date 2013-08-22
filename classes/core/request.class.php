@@ -37,12 +37,13 @@ class request extends component {
         $this->data['params'] = array();
         $chunks = explode('/', $_SERVER['PHP_SELF']);
         while (count($chunks)>0) {
-            $url = implode($chunks);
+            $url = '/'.implode($chunks);
             if (isset($this->pages[$url])) {
                 $this->data['url'] = $url;
                 break;
             } else {
                 $this->data['params'][] = $chunks[count($chunks)-1];
+                unset($chunks[count($chunks)-1]);
             }
         }
         $this->data['params'] = array_reverse($this->data['params']);
