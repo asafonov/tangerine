@@ -15,6 +15,11 @@ class activeRecord extends component {
         $this->_table = get_class($this);
     }
 
+    public function setId($value) {
+        $this->id = $value;
+        $this->load();
+    }
+
     public function load($criteria = null) {
         if ($criteria = null) {
             if ($this->id) {
