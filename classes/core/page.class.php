@@ -23,6 +23,18 @@ class page extends activeRecord {
         $template = new template($this->layout);
         return $template->fill($block);
     }
+
+    public function setLayout($value) {
+        $this->layout = $value;
+    }
+
+    public function getBlocks() {
+        return $this->blocks;
+    }
+
+    public function setBlocks($value) {
+        $this->blocks = $value;
+    }
 }   
 
 ?>

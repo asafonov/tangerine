@@ -24,12 +24,10 @@ class activeRecord extends component {
             foreach ($data as $k=>$v) {
                 $method_name = 'set'.$k;
                 if (method_exists($this, $method_name)) {
-                    $this->$method_name($v);
-                } elseif (property_exists($this, $k)) {
                     if (is_array($this->$k)) {
-                        $this->$k = unserialize($v);
+                        $this->$method_name(unserialize($v));
                     } else {
-                        $this->$k = $v;
+                        $this->$method_name($v);
                     }
                 }
             }
