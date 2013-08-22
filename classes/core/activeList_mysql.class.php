@@ -7,9 +7,9 @@ class activeList extends component {
     private $_connector;
     private $_table;
 
-    public function __construct() {
+    public function __construct($table = false) {
         $this->_connector = new mysqli($this->_host, $this->_login, $this->_password, $this->_database);
-        $this->_table = get_class($this);
+        $this->_table = $table?$table:get_class($this);
     }
 
     public function setQuery($query=array()) {
@@ -57,6 +57,7 @@ class activeList extends component {
     
 
     public function asArray() {
+        $sql = $this->_createSQL();
         $result = $this->_connector->query($sql);
         $ret = array();
         while ($spam = $result->fetch_assoc()) {
