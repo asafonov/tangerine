@@ -10,14 +10,6 @@ class page extends activeRecord {
     private $layout;
     private $blocks = array();
 
-    public function setUrl($url) {
-        if ($url!=$this->url) {
-            $this->url = $url;
-            $this->load(array('url'=>$url));
-        }
-    }
-
-    
     public function display() {
         if (count($this->blocks)==0) {
             return false;

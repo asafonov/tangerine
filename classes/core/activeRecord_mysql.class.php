@@ -36,13 +36,6 @@ class activeRecord extends component {
         }
     }
 
-    public function setId($value) {
-        if ($value!=$this->id) {
-            $this->id = $value;
-            $this->load();
-        }
-    }
-
     public function load($criteria = null) {
         if ($criteria == null) {
             if ($this->id) {
