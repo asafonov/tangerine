@@ -32,6 +32,8 @@ class component {
         $method = 'set'.$name;
         if (method_exists($this, $method)) {
             $this->$method($value);
+        } elseif(property_exists($this, $name)) {
+            $this->$name = $value;
         } else {
             throw new RuntimeException("Error while setting property ".$name);
         }
