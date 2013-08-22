@@ -5,9 +5,17 @@ class activeList extends component {
     private $limit = 0;
     private $skip = 0;
     private $_connector;
+    private $_host;
+    private $_login;
+    private $_password;
+    private $_database;
     private $_table;
 
     public function __construct($table = false) {
+        $this->_host = !$this->_host?config::getValue('mysql_host'):$this->_host;
+        $this->_login = !$this->_login?config::getValue('mysql_login'):$this->_login;
+        $this->_password = !$this->_password?config::getValue('mysql_password'):$this->_password;
+        $this->_database = !$this->_database?config::getValue('mysql_database'):$this->_database;
         $this->_connector = new mysqli($this->_host, $this->_login, $this->_password, $this->_database);
         $this->_table = $table?$table:get_class($this);
     }
