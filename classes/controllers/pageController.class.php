@@ -8,7 +8,7 @@ class pageController {
 
     public function run() {
         $page = new page();
-        $page->url = registry::getInstance()->getService('request')->url;
+        $page->load(array('url' => registry::getInstance()->getService('request')->url));
         return $page->display();
     }
 
