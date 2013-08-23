@@ -82,7 +82,7 @@ class template {
             $this->vars[$k] = $v;
         }
         $include = $this->template_connector->getCompiled($this->name);
-        if (!$include {
+        if (!$include) {
             $this->compileTemplate();
             $include = $this->template_connector->getCompiled($this->name);
         }
