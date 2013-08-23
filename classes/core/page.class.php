@@ -14,6 +14,7 @@ class page extends activeRecord {
         if (count($this->blocks)==0) {
             return false;
         }
+        $blocks = array();
         foreach ($this->blocks as $k=>$v) {
             $classname = $v['type'].'Controller';
             unset($spam);
@@ -21,7 +22,7 @@ class page extends activeRecord {
             $blocks[$k] = $spam->run($v['data']);
         }
         $template = new template($this->layout);
-        return $template->fill($block);
+        return $template->fill($blocks);
     }
 
     public function setLayout($value) {
