@@ -9,13 +9,20 @@ class userController extends baseController {
 
     public function login() {
         if (!$this->isAuthorized()) {
-            return $this->_loginForm();
+            if (count($this->query)>0) {
+                return $this->_processLogin();
+            } else {
+                return $this->_loginForm();
+            }
         }
     }
 
     private function _loginForm() {
         $template = new template('user_loginForm');
         return $template->fill($this->query);
+    }
+
+    private function _processLogin() {
     }
 }
 

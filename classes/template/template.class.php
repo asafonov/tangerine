@@ -1,5 +1,7 @@
 <?php
 
+if (!defined('DEBUG_MODE')) define('DEBUG_MODE', false);
+
 class template {
     
     private $placeholders;
@@ -82,7 +84,7 @@ class template {
             $this->vars[$k] = $v;
         }
         $include = $this->template_connector->getCompiled($this->name);
-        if (!$include) {
+        if (!$include||DEBUG_MODE) {
             $this->compileTemplate();
             $include = $this->template_connector->getCompiled($this->name);
         }
@@ -107,7 +109,7 @@ class template {
             throw new RuntimeException("Template name is empty");
         }
         $this->html=  $this->template_connector->get($this->name);
-        if (!$this->placeholders) {
+        if (!$this->placeholders||DEBUG_MODE) {
             $this->parseTemplate();
         } 
 
