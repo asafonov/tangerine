@@ -19,6 +19,7 @@ class auth {
         }
         $user = registry::getInstance()->getService('user');
         $user->id = $cookie['id'];
+        $user->load();
         return true;
     }
 
