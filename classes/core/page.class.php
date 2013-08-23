@@ -17,7 +17,7 @@ class page extends activeRecord {
         $blocks = array();
         foreach ($this->blocks as $k=>$v) {
             if (strpos($v['type'], '->')!==false) {
-                $spam = explode('->', $v['type']);
+                $tmp = explode('->', $v['type']);
                 $classname = $tmp[0].'Controller';
                 $method = $tmp[1];
             } else {
