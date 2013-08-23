@@ -17,12 +17,17 @@ class userController extends baseController {
         }
     }
 
-    private function _loginForm() {
+    private function _loginForm($error=false) {
         $template = new template('user_loginForm');
-        return $template->fill($this->query);
+        return $template->fill(array_merge($this->query, array('error'=>$error)));
     }
 
     private function _processLogin() {
+        if (registry::getInstance()->getService('user')->login($this->query['login'], $this->query['password'])) {
+            return $this->privateMode();
+        } else {
+            return $this->_loginForm(true);
+        }
     }
 }
 

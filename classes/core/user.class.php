@@ -14,6 +14,7 @@ class user extends activeRecord {
     private $_crypt;
 
     public function __construct() {
+        parent::__construct();
         $this->_crypt = new crypt();
     }
 

@@ -47,8 +47,10 @@ class activeRecord extends component {
             $sql .= " and $k = '$v'";
         }
         $result = $this->_connector->query($sql);
-        $spam = $result->fetch_assoc();
-        $this->init($spam);
+        if ($result->num_rows>0) {
+            $spam = $result->fetch_assoc();
+            $this->init($spam);
+        }
     }
 
     public function save() {
