@@ -54,14 +54,17 @@ class activeRecord extends component {
     }
 
     public function save() {
-        $spam = get_object_vars($this);
+        $string=  var_export($this, true);
+        $string=  str_replace('))', ')', $string);
+        $string=  preg_replace('/[a-z0-9_]+::__set_state\(/si', '', $string);
+        eval('$spam='.$string.';');
         foreach ($spam as $k=>$v) {
             if (strpos($k, '_')===0) {
                 unset($spam[$k]);
             }
         }
+        unset($spam['id']);
         if ($this->id) {
-            unset($spam['id']);
             $sql = 'update '.$this->_table.' set';
             $i=0;
             foreach($spam as $k=>$v) {
@@ -71,12 +74,12 @@ class activeRecord extends component {
         } else {
             $result = $this->_connector->query('select max(id) as maxid from '.$this->_table);
             $tmp = $result->fetch_assoc();
-            $this->id = $tmp['id']>0?$tmp['id']+1:1;
+            $this->id = $tmp['maxid']>0?$tmp['maxid']+1:1;
             $sql = 'insert into '.$this->_table.' (id';
             $sql_values = 'values ('.$this->id;
             foreach ($spam as $k=>$v) {
                 $sql .= ', '.$k;
-                $sql_values .= ", '".is_array($v)?serialize($v):$v."'";
+                $sql_values .= ", '".(is_array($v)?serialize($v):$v)."'";
             }
             $sql = $sql.') '.$sql_values.')';
         }
