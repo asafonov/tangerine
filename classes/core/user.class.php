@@ -42,6 +42,7 @@ class user extends activeRecord {
         $user->load(array('login'=>$login));
         if ($user->password == $this->_crypt->hash($password)) {
             $this->id = $user->id;
+            $this->load();
             return true;
         } else {
             return false;
