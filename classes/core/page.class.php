@@ -16,10 +16,17 @@ class page extends activeRecord {
         }
         $blocks = array();
         foreach ($this->blocks as $k=>$v) {
-            $classname = $v['type'].'Controller';
+            if (strpos($v['type'], '->')!==false) {
+                $spam = explode('->', $v['type']);
+                $classname = $tmp[0].'Controller';
+                $method = $tmp[1];
+            } else {
+                $classname = $v['type'].'Controller';
+                $method = 'run';
+            }
             unset($spam);
             $spam = new $classname();
-            $blocks[$k] = $spam->run($v['data']);
+            $blocks[$k] = $spam->$method($v['data']);
         }
         $template = new template($this->layout);
         return $template->fill($blocks);
