@@ -19,6 +19,14 @@ class activeRecord extends component {
         $this->_table = get_class($this);
     }
 
+    public function getId() {
+        return $this->id;
+    }
+
+    public function setId($id) {
+        $this->id = $id;
+    }
+
     public function init($data=array()) {
         if (count($data)>0) {
             foreach ($data as $k=>$v) {
@@ -28,6 +36,12 @@ class activeRecord extends component {
                         $this->$method_name(unserialize($v));
                     } else {
                         $this->$method_name($v);
+                    }
+                } elseif (property_exists($this, $k)) {
+                    if (is_array($this->$k)) {
+                        $this->$k = unserialize($v);
+                    } else {
+                        $this->$k = $v;
                     }
                 }
             }

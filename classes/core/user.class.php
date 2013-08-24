@@ -2,15 +2,15 @@
 
 class user extends activeRecord {
 
-    private $login;
-    private $password;
-    private $email;
-    private $name;
-    private $sex;
-    private $avatar;
-    private $photo;
-    private $country;
-    private $city;
+    public $login;
+    public $password;
+    public $email;
+    public $name;
+    public $sex;
+    public $avatar;
+    public $photo;
+    public $country;
+    public $city;
     private $_crypt;
 
     public function __construct() {
