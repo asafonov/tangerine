@@ -16,6 +16,8 @@ class userController extends baseController {
             }
         } elseif (isset($this->query['logout'])) {
             return $this->_logout();
+        } else {
+            return $this->_privateMode();
         }
     }
 
@@ -32,6 +34,11 @@ class userController extends baseController {
         } else {
             return $this->_loginForm(true);
         }
+    }
+
+    private function _privateMode() {
+        $template = new template('user_privateMode');
+        return $template->fill(registry::getInstance()->getService('user')->asArray());
     }
 
     private function _logout() {
