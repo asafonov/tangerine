@@ -24,6 +24,8 @@ class userController extends baseController {
 
     private function _processLogin() {
         if (registry::getInstance()->getService('user')->login($this->query['login'], $this->query['password'])) {
+            $auth = new auth();
+            $auth->setSign();
             return $this->privateMode();
         } else {
             return $this->_loginForm(true);
