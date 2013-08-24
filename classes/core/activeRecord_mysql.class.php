@@ -67,7 +67,7 @@ class activeRecord extends component {
         }
     }
 
-    public function save() {
+    public function asArray() {
         $string=  var_export($this, true);
         $string=  str_replace('))', ')', $string);
         $string=  preg_replace('/[a-z0-9_]+::__set_state\(/si', '', $string);
@@ -77,6 +77,11 @@ class activeRecord extends component {
                 unset($spam[$k]);
             }
         }
+        return $spam;
+    }
+
+    public function save() {
+        $spam = $this->asArray();
         unset($spam['id']);
         if ($this->id) {
             $sql = 'update '.$this->_table.' set';

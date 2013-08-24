@@ -14,6 +14,8 @@ class userController extends baseController {
             } else {
                 return $this->_loginForm();
             }
+        } elseif (isset($this->query['logout'])) {
+            return $this->_logout();
         }
     }
 
@@ -26,10 +28,15 @@ class userController extends baseController {
         if (registry::getInstance()->getService('user')->login($this->query['login'], $this->query['password'])) {
             $auth = new auth();
             $auth->setSign();
-            return $this->privateMode();
+            return $this->_privateMode();
         } else {
             return $this->_loginForm(true);
         }
+    }
+
+    private function _logout() {
+        $auth = new auth();
+        $auth->deleteSign();
     }
 }
 
