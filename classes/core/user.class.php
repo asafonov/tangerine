@@ -18,22 +18,11 @@ class user extends activeRecord {
         $this->_crypt = new crypt();
     }
 
-    public function init($data = array()) {
-        if (count($data)>0) {
-            foreach ($data as $k=>$v) {
-                if ($k=='password') {
-                    $this->password = $this->_crypt->hash($v);
-                } elseif (property_exists($this, $k)) {
-                    $this->$k = $v;
-                }
-            }
-        }
-    }
-
     public function create($data = array()) {
         if (count($data)==0) {
             $data = registry::getInstance()->getService('request')->query;
         }
+        $data['password'] = isset($data['password'])?$this->_crypt_hash($data['password']):'';
         $this->init($data);
         $this->save();
     }
