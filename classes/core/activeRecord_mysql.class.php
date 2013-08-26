@@ -88,6 +88,7 @@ class activeRecord extends component {
             $i=0;
             foreach($spam as $k=>$v) {
                 $sql .= ($i>0?', ':' ')."$k='$v'";
+                $i = $i+1;
             }
             $sql .= ' where id = '.$this->id;
         } else {
