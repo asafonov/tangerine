@@ -22,7 +22,7 @@ class user extends activeRecord {
         if (count($data)==0) {
             $data = registry::getInstance()->getService('request')->query;
         }
-        $data['password'] = isset($data['password'])?$this->_crypt_hash($data['password']):'';
+        $data['password'] = isset($data['password'])?$this->_crypt->hash($data['password']):'';
         $this->init($data);
         $this->save();
     }
