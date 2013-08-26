@@ -87,7 +87,7 @@ class activeRecord extends component {
             $sql = 'update '.$this->_table.' set';
             $i=0;
             foreach($spam as $k=>$v) {
-                $sql .= ($i>0?', ':' ')."$k='$v'";
+                $sql .= ($i>0?', ':' ')."$k='".(is_array($v)?serialize($v):$v)."'";
                 $i = $i+1;
             }
             $sql .= ' where id = '.$this->id;
