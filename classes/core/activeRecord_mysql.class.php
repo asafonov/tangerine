@@ -87,7 +87,7 @@ class activeRecord extends component {
             $sql = 'update '.$this->_table.' set';
             $i=0;
             foreach($spam as $k=>$v) {
-                $sql .= ($i>0?', ':' ')."$k='".(is_array($v)?serialize($v):$v)."'";
+                $sql .= ($i>0?', ':' ')."$k='".str_replace(array("\'", "'"),"\'",(is_array($v)?serialize($v):$v))."'";
                 $i = $i+1;
             }
             $sql .= ' where id = '.$this->id;
@@ -99,7 +99,7 @@ class activeRecord extends component {
             $sql_values = 'values ('.$this->id;
             foreach ($spam as $k=>$v) {
                 $sql .= ', '.$k;
-                $sql_values .= ", '".(is_array($v)?serialize($v):$v)."'";
+                $sql_values .= ", '".str_replace(array("'", "\'"), "\'", (is_array($v)?serialize($v):$v))."'";
             }
             $sql = $sql.') '.$sql_values.')';
         }
