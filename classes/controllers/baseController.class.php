@@ -13,6 +13,10 @@ class baseController extends component {
     public function getParams() {
         return registry::getInstance()->getService('request')->params;
     }
+
+    public function Location($location) {
+        header('Location: '.$location);
+    }
 }
 
 ?>
