@@ -9,7 +9,7 @@ class userController extends baseController {
 
     public function login() {
         if (!$this->isAuthorized()) {
-            if (count($this->query)>0) {
+            if (count($this->query)>0&&isset($this->query['login'])&&isset($this->query['password'])) {
                 return $this->_processLogin();
             } else {
                 return $this->_loginForm();
@@ -44,6 +44,7 @@ class userController extends baseController {
     private function _logout() {
         $auth = new auth();
         $auth->deleteSign();
+        return $this->_loginForm();
     }
 }
 
