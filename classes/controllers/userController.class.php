@@ -46,6 +46,14 @@ class userController extends baseController {
         $auth->deleteSign();
         return $this->_loginForm();
     }
+
+    public function registerForm() {
+        if ($this->isAuthorized()) {
+            $this->Location('/');
+        }
+        $template = new template('userregisterForm');
+        return $template->fill();
+    }
 }
 
 ?>

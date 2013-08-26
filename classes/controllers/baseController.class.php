@@ -16,6 +16,7 @@ class baseController extends component {
 
     public function Location($location) {
         header('Location: '.$location);
+        die();
     }
 }
 

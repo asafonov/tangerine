@@ -14,7 +14,7 @@ class request extends component {
     }
 
     public function getQuery() {
-        return $_REQUEST;
+        return array_merge($_GET, $_POST);
     }
 
     public function getCookie() {
