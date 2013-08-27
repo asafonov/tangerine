@@ -21,6 +21,10 @@ class request extends component {
         return $_COOKIE;
     }
 
+    public function getFiles() {
+        return $_FILES;
+    }
+
     public function getURL() {
         if (isset($this->data['url'])) return $this->data['url'];
         $this->_findPage();

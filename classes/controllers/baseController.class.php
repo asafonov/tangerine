@@ -14,6 +14,10 @@ class baseController extends component {
         return registry::getInstance()->getService('request')->params;
     }
 
+    public function getFiles() {
+        return registry::getInstance()->getService('request')->files;
+    }
+
     public function Location($location) {
         header('Location: '.$location);
         die();

@@ -83,7 +83,7 @@ class image {
      */
     private function _getImage() {
         if (!$this->type) $this->_setTypeByExt();
-        if ($this->type=='jpeg') {
+        if ($this->type=='jpeg'||$this->type=='jpg') {
 	        $im = imagecreatefromjpeg($this->source);
 	    } elseif ($this->type=='png') {
   	        $im = imagecreatefrompng($this->source);

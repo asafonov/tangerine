@@ -45,9 +45,27 @@ class userController extends baseController {
 
     public function privateMode() {
         if ($this->isAuthorized()) {
+            if (count($this->query)>0) {
+                $this->_processPrivateMode();
+            }
             return $this->_privateMode();
         } else {
             return $this->_loginForm();
+        }
+    }
+
+    private function _processPrivateMode() {
+        $user = registry::getInstance()->getService('user');
+        $user->create();
+        
+        if ($this->files['avatar']['tmp_name']!='') {
+            $ext = explode('.', $this->files['avatar']['name']);
+            $user->addAvatar($this->files['avatar']['tmp_name'], strtolower($ext[count($ext)-1]));
+        }
+
+        if ($this->files['photo']['tmp_name']!='') {
+            $ext = explode('.', $this->files['photo']['name']);
+            $user->addPhoto($this->files['photo']['tmp_name'], strtolower($ext[count($ext)-1]));
         }
     }
 

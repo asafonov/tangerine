@@ -79,6 +79,28 @@ class user extends activeRecord {
             $data = registry::getInstance()->getService('request')->query;
         }
         return $data['code'] == $this->_crypt->hash($data['login'], $data['random']);
+    }
+
+    public function addAvatar($filename, $type) {
+        if (!$this->id) {
+            throw new Exception("User id was not specified");
+        }
+        $image = new image($filename, $type);
+        $image->destination = $_SERVER['DOCUMENT_ROOT'].'/uploads/avatar/'.$this->id.'.'.$type;
+        $image->resize(100, 100, image::CROP);
+        $this->avatar = '/uploads/avatar/'.$this->id.'.'.$type;
+        $this->save();
+    }
+ 
+    public function addPhoto($filename, $type) {
+        if (!$this->id) {
+            throw new Exception("User id was not specified");
+        }
+        $image = new image($filename, $type);
+        $image->destination = $_SERVER['DOCUMENT_ROOT'].'/uploads/photo/'.$this->id.'.'.$type;
+        $image->resize(800, 600, image::FIT);
+        $this->photo = '/uploads/photo/'.$this->id.'.'.$type;
+        $this->save();
     } 
 
 }
