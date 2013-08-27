@@ -43,6 +43,14 @@ class userController extends baseController {
         return $template->fill(registry::getInstance()->getService('user')->asArray());
     }
 
+    public function privateMode() {
+        if ($this->isAuthorized()) {
+            return $this->_privateMode();
+        } else {
+            return $this->_loginForm();
+        }
+    }
+
     private function _logout() {
         $auth = new auth();
         $auth->deleteSign();
