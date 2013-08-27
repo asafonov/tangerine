@@ -11,6 +11,7 @@ class user extends activeRecord {
     public $photo;
     public $country;
     public $city;
+    public $active=0;
     private $_crypt;
 
     public function __construct() {
@@ -49,7 +50,7 @@ class user extends activeRecord {
 
     public function login($login, $password) {
         $user = new user();
-        $user->load(array('login'=>$login));
+        $user->load(array('login'=>$login, 'active'=>1));
         if ($user->password == $this->_crypt->hash($password)) {
             $this->id = $user->id;
             $this->load();
@@ -57,6 +58,16 @@ class user extends activeRecord {
         } else {
             return false;
         }
+    }
+
+    public function sendConfirm() {
+        $data = array('login'=>$this->login);
+        $data['random'] = $this->_crypt->random();
+        $data['code'] = $this->_crypt->hash($this->login, $data['random']);
+        $body = new template('usersendConfirmBody');
+        registry::getInstance()->getService('transport')->send($this->email, '', $body->fill($data));
+        $template = new template('usersendConfirm');
+        return $template->fill();
     }
 
 }

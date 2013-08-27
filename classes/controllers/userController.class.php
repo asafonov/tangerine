@@ -70,6 +70,7 @@ class userController extends baseController {
         try {
             $this->_checkQuery();
             registry::getInstance()->getService('user')->create();
+            return registry::getInstance()->getService('user')->sendConfirm();
         } catch(Exception $e) {
             return $this->_registerForm(array('error'.$e->getCode()=>true));
         }
