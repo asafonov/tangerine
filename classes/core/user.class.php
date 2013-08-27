@@ -66,9 +66,20 @@ class user extends activeRecord {
         $data['code'] = $this->_crypt->hash($this->login, $data['random']);
         $body = new template('usersendConfirmBody');
         registry::getInstance()->getService('transport')->send($this->email, '', $body->fill($data));
-        $template = new template('usersendConfirm');
-        return $template->fill();
+        return $this->confirmForm($data);
     }
+
+    public function confirmForm($data) {
+        $template = new template('usersendConfirm');
+        return $template->fill($data);
+    }
+
+    public function confirm($data = array()) {
+        if (count($data)==0) {
+            $data = registry::getInstance()->getService('request')->query;
+        }
+        return $data['code'] == $this->_crypt->hash($data['login'], $data['random']);
+    } 
 
 }
 

@@ -107,6 +107,20 @@ class userController extends baseController {
             throw new Exception("Error in captcha keystring", 3);
         }
     }
+
+    public function confirm() {
+        if (registry::getInstance()->getService('user')->confirm()) {
+            $user = registry::getInstance()->getService('user');
+            $user->load(array('login'=>$this->query['login']));
+            $user->active = 1;
+            $user->save();
+            $auth = new auth();
+            $auth->setSign();
+            return $this->_privateMode();
+        } else {
+            return registry::getInstance()->getService('user')->confirmForm(array_merge($this->query, array('error'=>true)));
+        }
+    }
 }
 
 ?>
