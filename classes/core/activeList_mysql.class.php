@@ -17,6 +17,7 @@ class activeList extends component {
         $this->_password = !$this->_password?config::getValue('mysql_password'):$this->_password;
         $this->_database = !$this->_database?config::getValue('mysql_database'):$this->_database;
         $this->_connector = new mysqli($this->_host, $this->_login, $this->_password, $this->_database);
+        $this->_connector->query('set names utf8');
         $this->_table = $table?$table:get_class($this);
     }
 
