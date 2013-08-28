@@ -4,6 +4,7 @@ class activeList extends component {
     private $query=array();
     private $limit = 0;
     private $skip = 0;
+    private $order = array();
     private $_connector;
     private $_host;
     private $_login;
@@ -29,6 +30,7 @@ class activeList extends component {
         } else {
             throw new RuntimeException("Incorrect data format");
         }
+        return $this;
     }
 
     public function setFields($fields=array()) {
@@ -39,14 +41,22 @@ class activeList extends component {
         } else {
             throw new RuntimeException("Incorrect data format");
         }
+        return $this;
     }
 
     public function setLimit($limit) {
         $this->limit = $limit;
+        return $this;
     }
 
     public function setSkip($skip) {
         $this->skip = $skip;
+        return $this;
+    }
+
+    public function setOrder($order) {
+        $this->order = array_merge($this->order, $order);
+        return $this;
     }
 
     private function _createSQL() {
@@ -59,6 +69,7 @@ class activeList extends component {
                 $sql .= " and $k = '$v'";
             }
         }
+        $sql .= count($this->order)>0?' order by '.implode(', ', $this->order):'';
         $sql .= $this->limit>0?' limit '.intval($this->skip).', '.$this->limit:'';
         return $sql;
     }
