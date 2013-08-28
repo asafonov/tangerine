@@ -5,6 +5,7 @@ class activeList extends component {
     private $limit = 0;
     private $skip = 0;
     private $order = array();
+    private $distinct = false;
     private $_connector;
     private $_host;
     private $_login;
@@ -59,8 +60,13 @@ class activeList extends component {
         return $this;
     }
 
+    public function setDistinct($distinct) {
+        $this->distinct = $distinct;
+        return $this;
+    }
+
     private function _createSQL() {
-        $sql = 'select '.
+        $sql = 'select '.($this->distinct?' distinct ':'').
         (count($this->fields)>0?implode(', ', $this->fields):'*').' '.
         'from '.$this->_table;
         if (count($this->query)>0) {
