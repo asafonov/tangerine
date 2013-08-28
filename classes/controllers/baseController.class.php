@@ -2,6 +2,11 @@
 
 class baseController extends component {
 
+    public function isAuthorized() {
+        $auth = new auth();
+        return $auth->checkSign();
+    }
+
     public function getCookie() {
         return registry::getInstance()->getService('request')->cookie;
     }

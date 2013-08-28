@@ -4,11 +4,6 @@ session_start();
 
 class userController extends baseController {
 
-    public function isAuthorized() {
-        $auth = new auth();
-        return $auth->checkSign();
-    }
-
     public function login() {
         if (!$this->isAuthorized()) {
             if (count($this->query)>0&&isset($this->query['login'])&&isset($this->query['password'])) {
