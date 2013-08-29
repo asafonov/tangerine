@@ -60,7 +60,7 @@ class activeList extends component {
         return $this;
     }
 
-    public function setDistinct($distinct) {
+    public function setDistinct($distinct=true) {
         $this->distinct = $distinct;
         return $this;
     }
