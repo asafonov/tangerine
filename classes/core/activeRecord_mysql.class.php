@@ -40,7 +40,7 @@ class activeRecord extends component {
                     }
                 } elseif (property_exists($this, $k)) {
                     if (is_array($this->$k)) {
-                        $this->$k = unserialize($v);
+                        $this->$k = is_array($v)?$v:unserialize($v);
                     } else {
                         $this->$k = $v;
                     }
