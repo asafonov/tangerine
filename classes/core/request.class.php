@@ -51,7 +51,8 @@ class request extends component {
                 $this->data['url'] = $url;
                 break;
             } else {
-                $this->data['params'][] = $chunks[count($chunks)-1];
+                if ($chunks[count($chunks)-1]!='')
+                    $this->data['params'][] = $chunks[count($chunks)-1];
                 unset($chunks[count($chunks)-1]);
             }
         }
