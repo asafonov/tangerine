@@ -26,7 +26,7 @@ class activeList extends component {
     public function setQuery($query=array()) {
         if (is_array($query)&&count($query)>0) {
             foreach ($query as $k=>$v) {
-                $this->$query[$k] = $v;
+                $this->query[$k] = $v;
             }
         } else {
             throw new RuntimeException("Incorrect data format");
@@ -37,7 +37,7 @@ class activeList extends component {
     public function setFields($fields=array()) {
         if (is_array($fields)&&count($fields)>0) {
             foreach ($fields as $k=>$v) {
-                $this->$fields[$k] = $v;
+                $this->fields[$k] = $v;
             }
         } else {
             throw new RuntimeException("Incorrect data format");
@@ -79,8 +79,6 @@ class activeList extends component {
         $sql .= $this->limit>0?' limit '.intval($this->skip).', '.$this->limit:'';
         return $sql;
     }
-
-    
 
     public function asArray() {
         $sql = $this->_createSQL();
