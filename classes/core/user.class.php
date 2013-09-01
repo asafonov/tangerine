@@ -12,6 +12,7 @@ class user extends activeRecord {
     public $country;
     public $city;
     public $active=0;
+    public $last_visit=0;
     private $_crypt;
 
     public function __construct() {
