@@ -85,7 +85,7 @@ class activeList extends component {
             $i=0;
             $sql .= ' order by ';
             foreach($this->order as $k=>$v) {
-                $sql .= ($i>0?', ':'').$k.(!$v?' desc':'');
+                $sql .= ($i>0?', ':'').$k.(!$v||$v<0?' desc':'');
                 $i=$i+1;
             }
         }
