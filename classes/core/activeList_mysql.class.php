@@ -81,7 +81,14 @@ class activeList extends component {
                 }
             }
         }
-        $sql .= count($this->order)>0?' order by '.implode(', ', $this->order):'';
+        if (count($this->order)>0) {
+            $i=0;
+            $sql .= ' order by ';
+            foreach($this->order as $k=>$v) {
+                $sql .= ($i>0?', ':'').$k.(!$v?' desc':'');
+                $i=$i+1;
+            }
+        }
         $sql .= $this->limit>0?' limit '.intval($this->skip).', '.$this->limit:'';
         return $sql;
     }
