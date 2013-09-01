@@ -72,7 +72,13 @@ class activeList extends component {
         if (count($this->query)>0) {
             $sql .= ' where 1=1';
             foreach ($this->query as $k=>$v) {
-                $sql .= " and $k = '$v'";
+                if (is_array($v)) {
+                    $field = array_keys($v);
+                    $value = array_values($v);
+                    $sql .= " and `{$field[0]}` $k '".str_replace(array("'", "\'"), "\'", $value[0])."'";
+                } else {
+                    $sql .= " and `$k` = '".str_replace(array("'", "\'"), "\'", $v)."'";
+                }
             }
         }
         $sql .= count($this->order)>0?' order by '.implode(', ', $this->order):'';
