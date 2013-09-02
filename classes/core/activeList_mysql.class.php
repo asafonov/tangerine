@@ -73,9 +73,17 @@ class activeList extends component {
             $sql .= ' where 1=1';
             foreach ($this->query as $k=>$v) {
                 if (is_array($v)) {
-                    $field = array_keys($v);
-                    $value = array_values($v);
-                    $sql .= " and `{$field[0]}` $k '".str_replace(array("'", "\'"), "\'", $value[0])."'";
+                    if ($k=='or') {
+                        $sql .= ' and (1=0';
+                        foreach ($v as $field=>$value) {
+                            $sql .= ' or `'.$field.'` = \''.str_replace(array("'", "\'"), "\'", $value).'\'';
+                        }
+                        $sql .= ')';
+                    } else {
+                        $field = array_keys($v);
+                        $value = array_values($v);
+                        $sql .= " and `{$field[0]}` $k '".str_replace(array("'", "\'"), "\'", $value[0])."'";
+                    }
                 } else {
                     $sql .= " and `$k` = '".str_replace(array("'", "\'"), "\'", $v)."'";
                 }
