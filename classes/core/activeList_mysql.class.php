@@ -65,10 +65,14 @@ class activeList extends component {
         return $this;
     }
 
-    private function _createSQL() {
-        $sql = 'select '.($this->distinct?' distinct ':'').
-        (count($this->fields)>0?implode(', ', $this->fields):'*').' '.
-        'from '.$this->_table;
+    private function _createSQL($count=false) {
+        if ($count) {
+            $sql = 'select count(1) ';
+        } else {
+            $sql = 'select '.($this->distinct?' distinct ':'').
+            (count($this->fields)>0?implode(', ', $this->fields):'*').' ';
+        }
+        $sql .= 'from '.$this->_table;
         if (count($this->query)>0) {
             $sql .= ' where 1=1';
             foreach ($this->query as $k=>$v) {
@@ -109,6 +113,13 @@ class activeList extends component {
             $ret[] = $spam;
         }
         return $ret;
+    }
+
+    public function  getCount() {
+        $sql = $this->_createSQL(true);
+        $result = $this->_connector->query($sql);
+        $spam = $result->fetch_array();
+        return $spam[0];
     }
 }
 ?>
