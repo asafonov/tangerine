@@ -80,9 +80,7 @@ class template {
         if (!is_array($data)) {
             throw new RuntimeException("Template data should be an array");
         }
-        foreach ($data as $k=>$v) {
-            $this->vars[$k] = $v;
-        }
+        $this->vars = $data;
         $include = $this->template_connector->getCompiled($this->name);
         if (!$include||DEBUG_MODE) {
             $this->compileTemplate();
