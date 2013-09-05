@@ -124,5 +124,19 @@ class activeList extends component {
         $spam = $result->fetch_array();
         return $spam[0];
     }
+
+    public function getRand() {
+        $this->order = array();
+        $limit = max(1, intval($this->limit));
+        $this->limit = 0;
+        $sql = $this->_createSQL();
+        $sql .= ' order by rand() limit '.$limit;
+        $result = $this->_connector->query($sql);
+        $ret = array();
+        while ($spam = $result->fetch_assoc()) {
+            $ret[] = $spam;
+        }
+        return $ret;
+    }
 }
 ?>

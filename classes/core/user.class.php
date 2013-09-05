@@ -41,7 +41,7 @@ class user extends activeRecord {
         }
     }
 
-    private function _checkEmail($emailk) {
+    private function _checkEmail($email) {
         $user = new user();
         $user->load(array('email'=>$email));
         if ($user->id) {
