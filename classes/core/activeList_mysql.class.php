@@ -12,6 +12,7 @@ class activeList extends component {
     private $_password;
     private $_database;
     private $_table;
+    private $_operands = array('>'=>true, '<'=>true, '<>'=>true, '>='=>true, '<='=>true);
 
     public function __construct($table = false) {
         $this->_host = !$this->_host?config::getValue('mysql_host'):$this->_host;
@@ -83,10 +84,12 @@ class activeList extends component {
                             $sql .= ' or `'.$field.'` = \''.str_replace(array("'", "\'"), "\'", $value).'\'';
                         }
                         $sql .= ')';
-                    } else {
+                    } elseif (isset($this->_operands[$k])) {
                         $field = array_keys($v);
                         $value = array_values($v);
                         $sql .= " and `{$field[0]}` $k '".str_replace(array("'", "\'"), "\'", $value[0])."'";
+                    } else {
+                        $sql .= " and `$k` in ('".implode("', '", $v)."')";
                     }
                 } else {
                     $sql .= " and `$k` = '".str_replace(array("'", "\'"), "\'", $v)."'";
