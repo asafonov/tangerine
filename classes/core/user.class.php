@@ -13,11 +13,16 @@ class user extends activeRecord {
     public $city;
     public $active=0;
     public $last_visit=0;
+    public $role;
     private $_crypt;
 
     public function __construct() {
         parent::__construct();
         $this->_crypt = new crypt();
+    }
+
+    public function isAdministrator() {
+        return $this->role == 1;
     }
 
     public function create($data = array()) {
@@ -103,6 +108,36 @@ class user extends activeRecord {
         $this->photo = '/uploads/photo/'.$this->id.'.'.$type;
         $this->save();
     } 
+
+    public function sendPassword($email) {
+        $this->load(array('email'=>$email));
+        if (!$this->email) {
+            return false;
+        }
+        $data = $this->asArray();
+        $body = new template('usersendPasswordBody');
+        $time = time()+3600;
+        $random = $this->_crypt->random(16);
+        $data['link'] = 'http://'.$_SERVER['HTTP_HOST'].'/password/change/'.$this->login.'/'.$time.'/'.$random.'/'.$this->_crypt->hash($this->login, $time, $random);
+        registry::getInstance()->getService('transport')->send($this->email, '', $body->fill($data));
+        return true;
+    }
+
+    public function tempAuth($login, $time, $random, $sign) {
+        if ($time<time()) {
+            throw new Exception("Temporary auth expired", 1);
+        }
+        if ($this->_crypt->hash($login, $time, $random)!=$sign) {
+            throw new Exception("Incorrect sign", 2);
+        }
+        $this->load(array('login'=>$login));
+        if (!$this->id) {
+            throw new Exception("User does not exist: ".$login, 3);
+        }
+        $auth = new Auth();
+        $auth->setSign();
+        return true;
+    }
 
 }
 
