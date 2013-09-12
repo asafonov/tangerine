@@ -5,6 +5,9 @@ class adminController extends baseController {
     public function run() {
         if (!$this->isAuthorized()) {
             return $this->login();
+        } elseif (isset($this->params[0])) {
+        } else {
+            return $this->_hello();
         } 
     }
 
@@ -14,6 +17,11 @@ class adminController extends baseController {
         }
         $template = new template('admin/login');
         return $template->fill($this->query);
+    }
+
+    private function _hello() {
+        $template = new template('admin/_hello');
+        return $template->fill();
     }
 
     private function _processLogin() {
