@@ -1,0 +1,15 @@
+body {
+    font-family: Tahoma,Sans-Serif;
+    color: #666666;
+    background-color: white;
+}
+
+a {
+    color: ff9900;
+}
+
+.login {
+    width: 100%;
+    text-align:center;
+    margin-top:100px;
+}

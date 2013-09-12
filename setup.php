@@ -12,4 +12,11 @@ $page->blocks = array();
 $page->blocks['user_login'] = array('type'=>'user->login', 'data'=>'');
 $page->blocks['content'] = array('type'=>'text', 'data'=>'<h1>Main page</h1><p>This is the main page');
 $page->save();
+
+$page = new page();
+$page->url = '/admin';
+$page->layout = 'admin';
+$page->blocks = array();
+$page->blocks['content'] = array('type'=>'admin', 'date'=>'');
+$page->save();
 ?>
