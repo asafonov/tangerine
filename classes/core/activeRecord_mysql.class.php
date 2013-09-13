@@ -68,6 +68,14 @@ class activeRecord extends component {
         }
     }
 
+    public function delete() {
+        if (!$this->id) {
+            throw new RuntimeException("There is no criteria for selecting an object");
+        }
+        $sql = 'delete from '.$this->_table.' where id = '.intval($this->id);
+        $result = $this->_connector->query($sql);
+    }
+
     public function asArray() {
         $string=  var_export($this, true);
         $string=  str_replace('))', ')', $string);
