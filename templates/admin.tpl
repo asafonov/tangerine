@@ -6,5 +6,7 @@
 </head>
 <body>
 <div class="logo"><img src="/images/admin/logo.png"></div>
+<div class="divider"></div>
+<div class="menu">{menu}</div>
 <div class="content">{content}</div>
 </body>

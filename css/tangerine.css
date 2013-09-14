@@ -9,7 +9,30 @@ a {
 }
 
 .login {
-    width: 100%;
     text-align:center;
     margin-top:100px;
+}
+
+.divider  {
+    border: 1px solid #ff9900;
+    background-color: #ff9900;
+    border-radius: 5px;
+    height: 40px;
+    margin: 10px;
+}
+
+.menu {
+    float: left;
+    width: 25%;
+    margin-right: 8px;
+    min-height: 300px;
+    margin-left: 10px;
+    border: 1px solid #fccb2c;
+    border-radius: 5px;
+    background-color: #fccb2c;
+    padding: 8px;
+}
+
+.menu a {
+    color: black;
 }

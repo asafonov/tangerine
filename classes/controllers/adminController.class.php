@@ -11,6 +11,18 @@ class adminController extends baseController {
         } 
     }
 
+    public function menu() {
+        if (!$this->isAuthorized()) {
+            return false;
+        }
+        return $this->_buildMenu(registry::getInstance()->getService('user')->role);
+    }
+
+    private function _buildMenu($role) {
+        $template = new template('admin/menu'.intval($role));
+        return $template->fill();
+    }
+
     public function login() {
         if (count($this->query)>1) {
             return $this->_processLogin();
