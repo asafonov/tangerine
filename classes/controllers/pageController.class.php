@@ -1,10 +1,6 @@
 <?php
 
-class pageController {
-
-    public function __construct() {
-        ;
-    }
+class pageController extends baseController {
 
     public function run() {
         $page = new page();

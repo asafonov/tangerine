@@ -10,16 +10,6 @@ class userController extends baseController {
         return $this->_adminList();
     }
 
-    private function _adminItem() {
-        $user = new user();
-        $user->id = intval($this->query['id']);
-        $user->load();
-        if (count($this->query)>1) $this->_saveAdminItem($user);
-        $template = new template('admin/user_edit');
-        $data = $user->asArray();
-        return $template->fill($data);
-    }
-
     private function _deleteAdminItem() {
         $user = new user();
         $user->id = intval($this->query['delete']);
@@ -41,18 +31,6 @@ class userController extends baseController {
             $user->addPhoto($this->files['photo']['tmp_name'], strtolower($ext[count($ext)-1]));
         }
         $this->Location('/admin/user');
-    }
-
-    private function _adminList() {
-        $list = new activeList('user');
-        $spam = $list->asArray();
-        $data['list'] = '';
-        $item_template = new template('admin/user_item');
-        for ($i=0, $j=count($spam); $i<$j; $i++) {
-            $data['list'] .= $item_template->fill($spam[$i]);
-        }
-        $template = new template('admin/user_list');
-        return $template->fill($data);
     }
 
     public function login() {
