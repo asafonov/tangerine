@@ -39,6 +39,7 @@ a {
 
 .content {
     width: 70%;
+    float: right;
 }
 
 .tangerine_table {
