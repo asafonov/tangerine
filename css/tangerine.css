@@ -34,5 +34,25 @@ a {
 }
 
 .menu a {
-    color: black;
+    color: #666666;
+}
+
+.content {
+    width: 70%;
+}
+
+.tangerine_table {
+    border-collapse:collapse;
+    border-spacing:0;
+}
+
+.tangerine_table td, th {
+    padding: 8px;
+    border: 1px solid #ff9900;
+}
+
+.tangerine_table th {
+    background-color: #fccb2c;
+    color: #303030;
+    font-weight: normal;
 }

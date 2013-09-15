@@ -4,6 +4,57 @@ session_start();
 
 class userController extends baseController {
 
+    public function admin() {
+        if (isset($this->query['id'])) return $this->_adminItem();
+        if (isset($this->query['delete'])) return $this->_deleteAdminItem();
+        return $this->_adminList();
+    }
+
+    private function _adminItem() {
+        $user = new user();
+        $user->id = intval($this->query['id']);
+        $user->load();
+        if (count($this->query)>1) $this->_saveAdminItem($user);
+        $template = new template('admin/user_edit');
+        $data = $user->asArray();
+        return $template->fill($data);
+    }
+
+    private function _deleteAdminItem() {
+        $user = new user();
+        $user->id = intval($this->query['delete']);
+        $user->delete();
+        $this->Location('/admin/user');
+    }
+
+    private function _saveAdminItem($user) {
+        $this->query['active'] = intval($this->query['active']);
+        $user->create();
+
+        if ($this->files['avatar']['tmp_name']!='') {
+            $ext = explode('.', $this->files['avatar']['name']);
+            $user->addAvatar($this->files['avatar']['tmp_name'], strtolower($ext[count($ext)-1]));
+        }
+
+        if ($this->files['photo']['tmp_name']!='') {
+            $ext = explode('.', $this->files['photo']['name']);
+            $user->addPhoto($this->files['photo']['tmp_name'], strtolower($ext[count($ext)-1]));
+        }
+        $this->Location('/admin/user');
+    }
+
+    private function _adminList() {
+        $list = new activeList('user');
+        $spam = $list->asArray();
+        $data['list'] = '';
+        $item_template = new template('admin/user_item');
+        for ($i=0, $j=count($spam); $i<$j; $i++) {
+            $data['list'] .= $item_template->fill($spam[$i]);
+        }
+        $template = new template('admin/user_list');
+        return $template->fill($data);
+    }
+
     public function login() {
         if (!$this->isAuthorized()) {
             if (count($this->query)>0&&isset($this->query['login'])&&isset($this->query['password'])) {

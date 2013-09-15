@@ -6,6 +6,15 @@ class adminController extends baseController {
         if (!$this->isAuthorized()) {
             return $this->login();
         } elseif (isset($this->params[0])) {
+            $classname = $this->params[0].'Controller';
+            if (!class_exists($classname)) throw new Exception("Plugin not found: {$this->params[0]}");
+            if (!method_exists($classname, 'admin')) throw new Exception("Error in plugin: {$this->params[0]}");
+            $spam = new $classname();
+            return $spam->admin();
+        } elseif(isset($this->query['logout'])) {
+            $auth = new auth();
+            $auth->deleteSign();
+            $this->Location('/admin');
         } else {
             return $this->_hello();
         } 
