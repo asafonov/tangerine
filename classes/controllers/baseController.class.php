@@ -57,6 +57,20 @@ class baseController extends component {
         $data = $spam->asArray();
         return $template->fill($data);
     }
+
+    private function _deleteAdminItem() {
+        $plugin_name = $this->params[0];
+        $spam = new $plugin_name();
+        $spam->id = intval($this->query['delete']);
+        $spam->delete();
+        $this->Location('/admin/'.$plugin_name);
+    }
+
+    private function _saveAdminItem($item) {
+        $plugin_name = $this->params[0];
+        $item->create();
+        $this->Location('/admin/'.$plugin_name);
+    }
 }
 
 ?>

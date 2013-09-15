@@ -4,19 +4,6 @@ session_start();
 
 class userController extends baseController {
 
-    public function admin() {
-        if (isset($this->query['id'])) return $this->_adminItem();
-        if (isset($this->query['delete'])) return $this->_deleteAdminItem();
-        return $this->_adminList();
-    }
-
-    private function _deleteAdminItem() {
-        $user = new user();
-        $user->id = intval($this->query['delete']);
-        $user->delete();
-        $this->Location('/admin/user');
-    }
-
     private function _saveAdminItem($user) {
         $this->query['active'] = intval($this->query['active']);
         $user->create();
