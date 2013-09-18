@@ -89,30 +89,53 @@ class activeRecord extends component {
         return $spam;
     }
 
-    public function save() {
+    private function _updateSQL() {
         $spam = $this->asArray();
         unset($spam['id']);
-        if ($this->id) {
-            $sql = 'update '.$this->_table.' set';
-            $i=0;
-            foreach($spam as $k=>$v) {
-                $sql .= ($i>0?', ':' ')."`$k`='".str_replace(array("\'", "'"),"\'",(is_array($v)?serialize($v):$v))."'";
-                $i = $i+1;
-            }
-            $sql .= ' where id = '.$this->id;
-        } else {
+        $sql = 'update '.$this->_table.' set';
+        $i=0;
+        foreach($spam as $k=>$v) {
+            $sql .= ($i>0?', ':' ')."`$k`='".str_replace(array("\'", "'"),"\'",(is_array($v)?serialize($v):$v))."'";
+            $i = $i+1;
+        }
+        $sql .= ' where id = '.$this->id;
+        return $sql;
+    }
+
+    private function _insertSQL() {
+        $spam = $this->asArray();
+        unset($spam['id']);
+        if (!$this->id>0) {
             $result = $this->_connector->query('select max(id) as maxid from '.$this->_table);
             $tmp = $result->fetch_assoc();
             $this->id = $tmp['maxid']>0?$tmp['maxid']+1:1;
-            $sql = 'insert into '.$this->_table.' (id';
-            $sql_values = 'values ('.$this->id;
-            foreach ($spam as $k=>$v) {
-                $sql .= ', `'.$k.'`';
-                $sql_values .= ", '".str_replace(array("'", "\'"), "\'", (is_array($v)?serialize($v):$v))."'";
-            }
-            $sql = $sql.') '.$sql_values.')';
         }
-        $this->_connector->query($sql);
+        $sql = 'insert into '.$this->_table.' (id';
+        $sql_values = 'values ('.$this->id;
+        foreach ($spam as $k=>$v) {
+            $sql .= ', `'.$k.'`';
+            $sql_values .= ", '".str_replace(array("'", "\'"), "\'", (is_array($v)?serialize($v):$v))."'";
+        }
+        $sql = $sql.') '.$sql_values.')';
+        return $sql;
+    }
+
+    public function save() {
+        if ($this->id>0) {
+            $sql = $this->_updateSQL();
+            $this->_connector->query($sql);
+            if ($this->_connector->affected_rows==0) {
+                $list = new activeList($this->_table);
+                $count = $list->setQuery(array('id'=>$this->id))->getCount();
+                if ($count==0) {
+                    $sql = $this->_insertSQL();
+                    $this->_connector->query($sql);
+                }
+            }
+        } else {
+            $sql = $this->_insertSQL();
+            $this->_connector->query($sql);
+        }
     }
 
 }

@@ -1,6 +1,6 @@
 <script>function a{id}() {location.href='/admin/page/?delete={id}';}</script>
 <tr>
-<td>{title}</td>
+<td>{name}</td>
 <td>{url}</td>
 <td>
 <nobr>
