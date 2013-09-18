@@ -50,8 +50,10 @@ class baseController extends component {
     protected function _adminItem() {
         $plugin_name = $this->params[0];
         $spam = new $plugin_name();
-        $spam->id = intval($this->query['id']);
-        $spam->load();
+        if ($this->query['id']!='') {
+            $spam->id = $this->query['id'];
+            $spam->load();
+        }
         if (count($this->query)>1) $this->_saveAdminItem($spam);
         $template = new template('admin/'.$plugin_name.'_edit');
         $data = $spam->asArray();
@@ -61,7 +63,7 @@ class baseController extends component {
     private function _deleteAdminItem() {
         $plugin_name = $this->params[0];
         $spam = new $plugin_name();
-        $spam->id = intval($this->query['delete']);
+        $spam->id = $this->query['delete'];
         $spam->delete();
         $this->Location('/admin/'.$plugin_name);
     }

@@ -58,3 +58,9 @@ a {
     color: #303030;
     font-weight: normal;
 }
+
+.tangerine_add img {
+    float:left;
+    margin-right: 8px;
+    margin-bottom: 4px;
+}
