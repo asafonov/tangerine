@@ -37,7 +37,8 @@ class page extends activeRecord {
             $blocks[$k] = $spam->$method($v['data']);
         }
         $template = new template($this->layout);
-        return $template->fill($blocks);
+        $page_data = array('page_title'=>$this->title, 'page_keywords'=>$this->keywords, 'page_description'=>$this->description);
+        return $template->fill(array_merge($blocks, $page_data));
     }
 
     public function setLayout($value) {
