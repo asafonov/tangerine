@@ -2,6 +2,7 @@
 <tr>
 <td>{name}</td>
 <td>{url}</td>
+<td align="center"><a href="/admin/page/blocks/{id}"><img src="/images/admin/put.png"></a></td>
 <td>
 <nobr>
 <a href="/admin/page/?id={id}"><img src="/images/admin/edit.png"></a>

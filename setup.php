@@ -17,7 +17,7 @@ $page = new page();
 $page->url = '/admin';
 $page->layout = 'admin';
 $page->blocks = array();
-$page->blocks['content'] = array('type'=>'admin', 'date'=>'');
+$page->blocks['content'] = array('type'=>'admin', 'data'=>'');
 $page->blocks['menu'] = array('type'=>'admin->menu', 'data'=>'');
 $page->save();
 ?>

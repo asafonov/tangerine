@@ -37,7 +37,7 @@ class baseController extends component {
     protected function _adminList() {
         $plugin_name = $this->params[0];
         $list = new activeList($plugin_name);
-        $spam = $list->asArray();
+        $spam = $list->setOrder(array('id'=>1))->asArray();
         $data['list'] = '';
         $item_template = new template('admin/'.$plugin_name.'_item');
         for ($i=0, $j=count($spam); $i<$j; $i++) {
