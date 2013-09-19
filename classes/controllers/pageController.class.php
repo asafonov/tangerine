@@ -17,9 +17,15 @@ class pageController extends baseController {
     }
 
     private function _savePageBlocks($page) {
-        $page->blocks = $this->query;
-        $page->save();
-        header('Location: /admin/page');
+        if (isset($this->query['delete'])) {
+            unset($page->blocks[$this->query['delete']]);
+            $page->save();
+            header('Location: /admin/page/blocks/'.$this->params[2]);
+        } else {
+            $page->blocks = $this->query;
+            $page->save();
+            header('Location: /admin/page');
+        }
     }
 
     private function _pageBlocks() {
@@ -42,7 +48,7 @@ class pageController extends baseController {
                         'selected'=>$blocks[$i]['value']==$v['type']
                     ));
                 }
-                $data['list'] .= $item_template->fill(array('name'=>$k, 'data'=>$v['data'], 'type'=>$type));
+                $data['list'] .= $item_template->fill(array('id'=>md5($k), 'page_id'=>$page->id, 'name'=>$k, 'data'=>$v['data'], 'type'=>$type));
             }
             $template = new template('admin/page_blocks_list');
             return $template->fill($data);
