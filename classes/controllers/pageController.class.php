@@ -31,7 +31,7 @@ class pageController extends baseController {
             $item_template = new template('admin/page_blocks_item');
             $data['list'] = '';
             $list = new activeList('block');
-            $blocks = $list->asArray();
+            $blocks = $list->setOrder(array('name'=>1))->asArray();
             $option_template = new template('widgets/option');
             foreach ($page->blocks as $k=>$v) {
                 $type='';
