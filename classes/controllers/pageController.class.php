@@ -30,8 +30,19 @@ class pageController extends baseController {
         if (count($page->blocks)>0) {
             $item_template = new template('admin/page_blocks_item');
             $data['list'] = '';
+            $list = new activeList('block');
+            $blocks = $list->asArray();
+            $option_template = new template('widgets/option');
             foreach ($page->blocks as $k=>$v) {
-                $data['list'] .= $item_template->fill(array_merge($v, array('name'=>$k)));
+                $type='';
+                for ($i=0, $j=count($blocks); $i<$j; $i++) {
+                    $type .= $option_template->fill(array(
+                        'id'=>$blocks[$i]['value'], 
+                        'name'=>$blocks[$i]['name'],
+                        'selected'=>$blocks[$i]['value']==$v['type']
+                    ));
+                }
+                $data['list'] .= $item_template->fill(array('name'=>$k, 'data'=>$v['data'], 'type'=>$type));
             }
             $template = new template('admin/page_blocks_list');
             return $template->fill($data);

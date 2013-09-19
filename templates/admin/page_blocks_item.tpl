@@ -1,6 +1,11 @@
 <tr>
 <td>{name}:</td>
-<td>Type: <input type="text" name="{name}[type]" value="{type}"><br>
+<td>Type: 
+    <select name="{name}[type]">
+        <option value=""></option>
+        {type}
+    </select>
+<br>
 Data: <textarea name="{name}[data]">{data}</textarea>
 </td>
 </tr>
