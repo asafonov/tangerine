@@ -21,6 +21,8 @@ class pageController extends baseController {
             unset($page->blocks[$this->query['delete']]);
             $page->save();
             header('Location: /admin/page/blocks/'.$this->params[2]);
+        } elseif (isset($this->query['block_name'])) {
+            $page->blocks[$this->query['block_name']] = array('type'=>'', 'data'=>'');
         } else {
             $page->blocks = $this->query;
             $page->save();
