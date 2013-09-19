@@ -28,7 +28,12 @@ class baseController extends component {
         die();
     }
 
+    public function checkPluginRights() {
+        return in_array(registry::getInstance()->getService('user')->role, $this->plugin_rights);
+    }
+
     public function admin() {
+        if (!$this->checkPluginRights()) return false;
         if (isset($this->query['id'])) return $this->_adminItem();
         if (isset($this->query['delete'])) return $this->_deleteAdminItem();
         return $this->_adminList();

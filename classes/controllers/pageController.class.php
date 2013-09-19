@@ -2,6 +2,8 @@
 
 class pageController extends baseController {
 
+    public $plugin_rights = array(1);
+
     public function run() {
         $page = new page();
         $page->load(array('url' => registry::getInstance()->getService('request')->url));
@@ -9,6 +11,7 @@ class pageController extends baseController {
     }
 
     public function admin() {
+        if (!$this->checkPluginRights()) return false;
         if (isset($this->params[1])&&$this->params[1]=='blocks'&&isset($this->params[2])) {
             return $this->_pageBlocks();
         } else {

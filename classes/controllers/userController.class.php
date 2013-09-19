@@ -4,6 +4,8 @@ session_start();
 
 class userController extends baseController {
 
+    public $plugin_rights = array(1);
+
     private function _saveAdminItem($user) {
         $this->query['active'] = intval($this->query['active']);
         $user->create();
