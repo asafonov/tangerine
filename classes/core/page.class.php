@@ -24,17 +24,21 @@ class page extends activeRecord {
         }
         $blocks = array();
         foreach ($this->blocks as $k=>$v) {
-            if (strpos($v['type'], '->')!==false) {
-                $tmp = explode('->', $v['type']);
-                $classname = $tmp[0].'Controller';
-                $method = $tmp[1];
+            if ($v['type']!='') {
+                if (strpos($v['type'], '->')!==false) {
+                    $tmp = explode('->', $v['type']);
+                    $classname = $tmp[0].'Controller';
+                    $method = $tmp[1];
+                } else {
+                    $classname = $v['type'].'Controller';
+                    $method = 'run';
+                }
+                unset($spam);
+                $spam = new $classname();
+                $blocks[$k] = $spam->$method($v['data']);
             } else {
-                $classname = $v['type'].'Controller';
-                $method = 'run';
+                $blocks[$k] = '';
             }
-            unset($spam);
-            $spam = new $classname();
-            $blocks[$k] = $spam->$method($v['data']);
         }
         $template = new template($this->layout);
         $page_data = array('page_title'=>$this->title, 'page_keywords'=>$this->keywords, 'page_description'=>$this->description);
