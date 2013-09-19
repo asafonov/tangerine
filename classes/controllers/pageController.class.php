@@ -35,9 +35,9 @@ class pageController extends baseController {
         $page->id = $this->params[2];
         $page->load();
         if (count($this->query)>0) $this->_savePageBlocks($page);
+        $data['list'] = '';
         if (count($page->blocks)>0) {
             $item_template = new template('admin/page_blocks_item');
-            $data['list'] = '';
             $list = new activeList('block');
             $blocks = $list->setOrder(array('name'=>1))->asArray();
             $option_template = new template('widgets/option');
@@ -52,9 +52,9 @@ class pageController extends baseController {
                 }
                 $data['list'] .= $item_template->fill(array('id'=>md5($k), 'page_id'=>$page->id, 'name'=>$k, 'data'=>$v['data'], 'type'=>$type));
             }
-            $template = new template('admin/page_blocks_list');
-            return $template->fill($data);
         }
+        $template = new template('admin/page_blocks_list');
+        return $template->fill($data);
     }
 
 }

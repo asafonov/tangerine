@@ -14,7 +14,7 @@
 </tr>
 <tr>
 <td>Url: </td>
-<td><input type="text" name="url" value="{url}">
+<td><input required="required" type="text" name="url" value="{url}">
 </tr>
 <tr>
 <td>Name: </td>
@@ -22,7 +22,7 @@
 </tr>
 <tr>
 <td>Layout: </td>
-<td><input type="text" name="layout" value="{layout}">
+<td><input type="text" required="required" name="layout" value="{layout}">
 </tr>
 <tr><td colspan="2"><input type="submit"></td></tr>
 </table>

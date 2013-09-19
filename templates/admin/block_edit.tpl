@@ -2,11 +2,11 @@
 <table>
 <tr>
 <td>Name: </td>
-<td><input type="text" name="name" value="{name}">
+<td><input required="required" type="text" name="name" value="{name}">
 </tr>
 <tr>
 <td>Value: </td>
-<td><input type="text" name="value" value="{value}">
+<td><input type="text" required="required" name="value" value="{value}">
 </tr>
 <tr><td colspan="2"><input type="submit"></td></tr>
 </table>

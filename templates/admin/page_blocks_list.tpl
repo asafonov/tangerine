@@ -11,8 +11,8 @@ function addBlock() {
 </script>
 <div class="tangerine_add"><a href="javascript:;" onclick="addBlock()"><img src="/images/admin/add.png">Add</a></div>
 <form method="post">
-<table class="tangerine_table">
-<tr><th>Name</th><th>Value</th><th></th></tr>
+<table width="100%" class="tangerine_table">
+<tr><th>Name</th><th width="100%">Value</th><th></th></tr>
 {list}
 </table>
 <input type="submit">
