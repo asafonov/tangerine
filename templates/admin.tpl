@@ -9,4 +9,5 @@
 <div class="divider"></div>
 <div class="menu">{menu}</div>
 <div class="content">{content}</div>
+<div class="footer">Tangerine CMS 2.0. Proudly presented by <a href="http://asafonov.org">asafonov</a></div>
 </body>

@@ -31,6 +31,7 @@ a {
     border-radius: 5px;
     background-color: #fccb2c;
     padding: 8px;
+    margin-bottom: 10px;
 }
 
 .menu a {
@@ -41,6 +42,7 @@ a {
     width: 70%;
     float: right;
     margin-right: 10px;
+    margin-bottom: 10px;
 }
 
 .tangerine_table {
@@ -67,4 +69,17 @@ a {
 
 .tangerine_add {
     height:28px;
+}
+
+.footer {
+    background-color: #ff9900;
+    border-radius: 5px;
+    clear: both;
+    margin: 10px;
+    text-align: center;
+    padding: 4px;
+}
+
+.footer a {
+    color: white;
 }
