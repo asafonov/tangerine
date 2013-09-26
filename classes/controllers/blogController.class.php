@@ -21,6 +21,7 @@ class blogController extends baseController {
         $data['list'] = '';
         $item_template = new template('record');
         for ($i=0, $j=count($records); $i<$j; $i++) {
+            $records[$i]['date'] = date('Y-m-d', $records[$i]['date']);
             $data['list'] .= $item_template->fill($records[$i]);
         }
         return $template->fill($data);
