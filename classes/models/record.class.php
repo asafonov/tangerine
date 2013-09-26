@@ -3,7 +3,7 @@
 class record extends activeRecord {
 
     public $title;
-    public $description;
+    public $body;
     public $user;
     public $date;
     public $blog;
