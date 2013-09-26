@@ -11,7 +11,7 @@ class blogController extends baseController {
     private function _list($blog_id) {
         $this->per_page = config::getValue('blog_per_page');
         if (!$this->per_page) $this->per_page = 20;
-        $list = activeList('record');
+        $list = new activeList('record');
         $records = $list->setQuery(array('blog'=>$blog_id))->setOrder(array('date'=>-1))->setLimit($this->per_page)->asArray();
         $template = new template('blog');
         $blog = new blog();
@@ -23,7 +23,7 @@ class blogController extends baseController {
         for ($i=0, $j=count($records); $i<$j; $i++) {
             $data['list'] .= $item_template->fill($records[$i]);
         }
-        return $template->fill($data)
+        return $template->fill($data);
     }
 
 }
