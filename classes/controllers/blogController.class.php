@@ -5,7 +5,23 @@ class blogController extends baseController {
     private $per_page;
 
     public function run($blog_id) {
+        if (isset($this->params[0])) {
+            return $this->_item($blog_id);
+        }
         return $this->_list($blog_id);
+    }
+
+    private function _item($blog_id) {
+        $record = new record();
+        $record->id = intval($this->params[0]);
+        $record->load();
+        if ($record->blog!=$blog_id) {
+            throw new Exception("Record was not found in this blog");
+        }
+        $spam = $record->asArray();
+        $spam['date'] = date('Y-m-d', $spam['date']);
+        $template = new template('record_full');
+        return $template->fill($spam);
     }
 
     private function _list($blog_id) {
