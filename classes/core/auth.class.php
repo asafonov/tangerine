@@ -20,6 +20,11 @@ class auth {
         $user = registry::getInstance()->getService('user');
         $user->id = $cookie['id'];
         $user->load();
+        if (!$user->login) {
+            $user->id = null;
+            $this->deleteSign();
+            return false;
+        }
         $time = time();
         if ($time-$user->last_visit>120) {
             $user->last_visit = $time;
