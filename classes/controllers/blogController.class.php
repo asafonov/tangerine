@@ -11,6 +11,17 @@ class blogController extends baseController {
         return $this->_list($blog_id);
     }
 
+    protected function _adminList() {
+        $list = new activeList('blog');
+        $spam = $list->setQuery(array('user'=>registry::getInstance()->getService('user')->id))->asArray();
+        $item_template = new template('admin/blog_item');
+        for ($i=0, $j=count($spam); $i<$j; $i++) {
+            $data['list'] .= $item_template->fill($spam[$i]);
+        }
+        $template = new template('admin/blog_list');
+        return $template->fill($data);
+    }
+
     private function _item($blog_id) {
         $record = new record();
         $record->id = intval($this->params[0]);
