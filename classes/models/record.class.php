@@ -17,7 +17,7 @@ class record extends activeRecord {
         }
         $this->init($data);
         if (!$this->body) throw new Exception("Empty record body is not allowed", 1);
-        $this->date = !$this->date?time():$this->date;
+        $this->date = intval($this->date)>0?$this->date:time();
         if (!$this->blog) {
             $blog = new blog();
             $blog->load(array('user'=>registry::getInstance()->getService('user')->id));

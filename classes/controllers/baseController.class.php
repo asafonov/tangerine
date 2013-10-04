@@ -66,7 +66,7 @@ class baseController extends component {
         return $template->fill($data);
     }
 
-    private function _deleteAdminItem() {
+    protected function _deleteAdminItem() {
         $plugin_name = $this->params[0];
         $spam = new $plugin_name();
         $spam->id = $this->query['delete'];
@@ -74,7 +74,7 @@ class baseController extends component {
         $this->Location('/admin/'.$plugin_name);
     }
 
-    private function _saveAdminItem($item) {
+    protected function _saveAdminItem($item) {
         $plugin_name = $this->params[0];
         $item->create();
         $this->Location('/admin/'.$plugin_name);
