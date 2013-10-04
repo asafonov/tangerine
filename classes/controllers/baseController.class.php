@@ -1,6 +1,7 @@
 <?php
 
 class baseController extends component {
+    public $plugin_rights = array(1);
 
     public function isAuthorized() {
         $auth = new auth();
