@@ -12,6 +12,10 @@
 <td>Date: </td>
 <td><input type="text" name="date" value="{date}">
 </tr>
+<tr>
+<td>Active: </td>
+<td><input type="checkbox" name="active" value="1"{if active} checked{/if}>
+</tr>
 <tr><td colspan="2"><input type="submit"></td></tr>
 </table>
 {if id}
