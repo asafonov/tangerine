@@ -24,10 +24,13 @@ class blogController extends baseController {
 
     private function _item($blog_id) {
         $record = new record();
-        $record->id = intval($this->params[0]);
+        $record->id = $this->params[0];
         $record->load();
         if ($record->blog!=$blog_id) {
             throw new Exception("Record was not found in this blog");
+        }
+        if (!$record->active) {
+            throw new Exception("Record is not active", 1);
         }
         $spam = $record->asArray();
         $spam['date'] = date('Y-m-d', $spam['date']);
@@ -39,7 +42,7 @@ class blogController extends baseController {
         $this->per_page = config::getValue('blog_per_page');
         if (!$this->per_page) $this->per_page = 20;
         $list = new activeList('record');
-        $records = $list->setQuery(array('blog'=>$blog_id))->setOrder(array('date'=>-1))->setLimit($this->per_page)->asArray();
+        $records = $list->setQuery(array('blog'=>$blog_id, 'active'=>1))->setOrder(array('date'=>-1))->setLimit($this->per_page)->asArray();
         $template = new template('blog');
         $blog = new blog();
         $blog->id = $blog_id;

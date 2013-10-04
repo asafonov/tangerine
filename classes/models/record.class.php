@@ -7,6 +7,7 @@ class record extends activeRecord {
     public $user;
     public $date;
     public $blog;
+    public $active = 0;
 
     public function create($data = array()) {
         if (!registry::getInstance()->getService('user')->id) {
@@ -15,6 +16,7 @@ class record extends activeRecord {
         if (count($data)==0) {
             $data = registry::getInstance()->getService('request')->query;
         }
+        $data['active'] = isset($data['active'])?$data['active']:0;
         $this->init($data);
         if (!$this->body) throw new Exception("Empty record body is not allowed", 1);
         $this->date = intval($this->date)>0?$this->date:time();

@@ -38,7 +38,8 @@ CREATE TABLE `record` (
  `body` text,
  `user` int(11) DEFAULT NULL,
  `date` int(12) DEFAULT NULL,
- `blog` int(11) DEFAULT NULL
+ `blog` int(11) DEFAULT NULL,
+ `active` int(11) DEFAULT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 CREATE TABLE `block` (
