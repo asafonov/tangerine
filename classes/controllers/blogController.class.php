@@ -23,13 +23,14 @@ class blogController extends baseController {
     }
 
     private function _item($blog_id) {
+        $this->isAuthorized();
         $record = new record();
         $record->id = $this->params[0];
         $record->load();
         if ($record->blog!=$blog_id) {
             throw new Exception("Record was not found in this blog");
         }
-        if (!$record->active) {
+        if ((!isset($this->query['debug'])||!registry::getInstance()->getService('user')->isAdministrator())&&!$record->active) {
             throw new Exception("Record is not active", 1);
         }
         $spam = $record->asArray();
