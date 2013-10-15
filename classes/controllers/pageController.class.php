@@ -5,7 +5,7 @@ class pageController extends baseController {
     public $plugin_rights = array(1);
 
     public function run() {
-        $page = new page();
+        $page = registry::getInstance()->getService('page');
         $page->load(array('url' => registry::getInstance()->getService('request')->url));
         return $page->display();
     }

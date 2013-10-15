@@ -36,6 +36,7 @@ class blogController extends baseController {
         $spam = $record->asArray();
         $spam['date'] = date('Y-m-d', $spam['date']);
         $template = new template('record_full');
+        registry::getInstance()->getService('page')->title .= ' | '.$record->title;
         return $template->fill($spam);
     }
 
