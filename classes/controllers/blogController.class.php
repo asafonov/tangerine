@@ -44,7 +44,8 @@ class blogController extends baseController {
         $this->per_page = config::getValue('blog_per_page');
         if (!$this->per_page) $this->per_page = 20;
         $list = new activeList('record');
-        $records = $list->setQuery(array('blog'=>$blog_id, 'active'=>1))->setOrder(array('date'=>-1))->setLimit($this->per_page)->asArray();
+        $skip = isset($this->query['skip'])?intval($this->query['skip']):0;
+        $records = $list->setQuery(array('blog'=>$blog_id, 'active'=>1))->setOrder(array('date'=>-1))->setLimit($this->per_page)->setSkip($skip)->asArray();
         $template = new template('blog');
         $blog = new blog();
         $blog->id = $blog_id;
