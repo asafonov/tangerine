@@ -31,6 +31,7 @@ class recordController extends baseController {
         $template = new template('admin/'.$plugin_name.'_edit');
         $data = $spam->asArray();
         if (intval($data['date'])>0) $data['date'] = date('Y-m-d', $data['date']);
+        $data['tags_text'] = implode(', ', $spam->tags);
         return $template->fill($data);
     }
 
@@ -41,6 +42,7 @@ class recordController extends baseController {
             $date = $data['date'];
             $data['date'] = mktime(0,0,0,substr($date,5,2),substr($date,8,2),substr($date,0,4));
         }
+        if (isset($data['tags'])) $data['tags'] = preg_split('/\s*,\s*/sim', $data['tags']);
         $item->create($data);
         $this->Location('/admin/'.$plugin_name.'/'.$this->params[1].'/');
     }

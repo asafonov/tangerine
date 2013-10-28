@@ -1,0 +1,1 @@
+<a href="/blog/tags/{tag}">{tag}</a>

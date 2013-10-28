@@ -18,7 +18,6 @@ class record extends activeRecord {
             $data = registry::getInstance()->getService('request')->query;
         }
         $data['active'] = isset($data['active'])?$data['active']:0;
-        if (isset($data['tags'])) $data['tags'] = preg_split('/\s*,\s*/sim', $data['tags']);
         $this->init($data);
         if (!$this->body) throw new Exception("Empty record body is not allowed", 1);
         $this->date = intval($this->date)>0?$this->date:time();

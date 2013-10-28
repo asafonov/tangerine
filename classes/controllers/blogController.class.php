@@ -38,7 +38,14 @@ class blogController extends baseController {
         }
         $spam = $record->asArray();
         $spam['date'] = date('Y-m-d', $spam['date']);
-        $spam['tags_text'] = implode(', ', $spam['tags']);
+        if (count($record->tags)>0) {
+            $tags = array();
+            $tags_template = new template('record_tags');
+            for ($i=0, $j=count($record->tags); $i<$j; $i++) {
+                $tags[] = $tags_template->fill(array('tag'=>$record->tags[$i]));
+            }
+            $spam['tags_text'] = implode(', ', $tags);
+        }
         $template = new template('record_full');
         registry::getInstance()->getService('page')->title .= ' | '.$record->title;
         return $template->fill($spam);
@@ -70,8 +77,17 @@ class blogController extends baseController {
         $data = $blog->asArray();
         $data['list'] = '';
         $item_template = new template('record');
+        $tags_template = new template('record_tags');
         for ($i=0, $j=count($records); $i<$j; $i++) {
             $records[$i]['date'] = date('Y-m-d', $records[$i]['date']);
+            if ($records[$i]['tags']!='') {
+                $tags = array();
+                $records[$i]['tags'] = unserialize($records[$i]['tags']);
+                for ($i1=0, $j1=count($records[$i]['tags']); $i1<$j1; $i1++) {
+                    $tags[] = $tags_template->fill(array('tag'=>$records[$i]['tags'][$i1]));
+                }
+                $records[$i]['tags_text'] = implode(', ', $tags);
+            }
             $data['list'] .= $item_template->fill($records[$i]);
         }
         return $template->fill($data);
