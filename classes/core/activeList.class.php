@@ -84,6 +84,14 @@ class activeList extends component {
                             $sql .= ' or `'.$field.'` = \''.str_replace(array("'", "\'"), "\'", $value).'\'';
                         }
                         $sql .= ')';
+                    } elseif ($k=='exists') {
+                        $field = array_keys($v);
+                        $value = array_values($v);
+                        $sql .= " and `{$field[0]}` like '%".str_replace(array("'", "\'"), "\'", $value[0])."%'";
+                    } elseif ($k=='mask') {
+                        $field = array_keys($v);
+                        $value = array_values($v);
+                        $sql .= " and `{$field[0]}` like '".str_replace(array('*', '?'), '%', str_replace(array("'", "\'"), "\'", $value[0]))."'";
                     } elseif (isset($this->_operands[$k])) {
                         $field = array_keys($v);
                         $value = array_values($v);

@@ -6,7 +6,10 @@ class blogController extends baseController {
 
     public function run($blog_id) {
         if (isset($this->params[0])) {
-            return $this->_item($blog_id);
+            if ($this->params[0]=='tags')
+                return $this->_tags($blog_id);
+            else
+                return $this->_item($blog_id);
         }
         return $this->_list($blog_id);
     }
@@ -35,9 +38,19 @@ class blogController extends baseController {
         }
         $spam = $record->asArray();
         $spam['date'] = date('Y-m-d', $spam['date']);
+        $spam['tags_text'] = implode(', ', $spam['tags']);
         $template = new template('record_full');
         registry::getInstance()->getService('page')->title .= ' | '.$record->title;
         return $template->fill($spam);
+    }
+
+    private function _tags($blog_id) {
+        $this->per_page = config::getValue('blog_per_page');
+        if (!$this->per_page) $this->per_page = 20;
+        $list = new activeList('record');
+        $skip = isset($this->query['skip'])?intval($this->query['skip']):0;
+        $records = $list->setQuery(array('blog'=>$blog_id, 'active'=>1, 'exists'=>array('tags'=>$this->params[1])))->setOrder(array('date'=>-1))->setLimit($this->per_page)->setSkip($skip)->asArray();
+        return $this->_displayRecords($records, $blog_id);                
     }
 
     private function _list($blog_id) {
@@ -46,6 +59,10 @@ class blogController extends baseController {
         $list = new activeList('record');
         $skip = isset($this->query['skip'])?intval($this->query['skip']):0;
         $records = $list->setQuery(array('blog'=>$blog_id, 'active'=>1))->setOrder(array('date'=>-1))->setLimit($this->per_page)->setSkip($skip)->asArray();
+        return $this->_displayRecords($records, $blog_id);
+    }
+
+    private function _displayRecords($records, $blog_id) {
         $template = new template('blog');
         $blog = new blog();
         $blog->id = $blog_id;

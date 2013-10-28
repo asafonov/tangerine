@@ -13,6 +13,10 @@
 <td><input type="text" name="date" value="{date}">
 </tr>
 <tr>
+<td>Tags: </td>
+<td><input type="text" name="tags" value="{tags_text}">
+</tr>
+<tr>
 <td>Active: </td>
 <td><input type="checkbox" name="active" value="1"{if active} checked{/if}>
 </tr>
