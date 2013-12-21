@@ -91,7 +91,12 @@ class pageController extends baseController {
         if ($page_id) {
             $page->id = $page_id;
             $page->load();
-            return $page->display();
+            try {
+                $spam = $page->display();
+                return $spam;
+            } catch (TangerineException $e) {
+                return $this->_404();
+            }
         } else {
             return $this->_404();
         }

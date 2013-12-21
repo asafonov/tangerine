@@ -70,8 +70,8 @@ class adminController extends baseController {
             return $this->login();
         } elseif (isset($this->params[0])) {
             $classname = $this->params[0].'Controller';
-            if (!tangerineClassExists($classname)) throw new Exception("Plugin not found: {$this->params[0]}");
-            if (!method_exists($classname, 'admin')) throw new Exception("Error in plugin: {$this->params[0]}");
+            if (!tangerineClassExists($classname)) throw new TangerineAdminException("Plugin not found: {$this->params[0]}", 1);
+            if (!method_exists($classname, 'admin')) throw new TangerineAdminException("Error in plugin: {$this->params[0]}", 2);
             $spam = new $classname();
             return $spam->admin();
         } elseif(isset($this->query['logout'])) {
