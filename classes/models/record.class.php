@@ -29,7 +29,7 @@ class record extends activeRecord {
             }
             $this->blog = $blog->id;
         }
-        $this->user = registry::getInstance()->getService('user')->id;
+        $this->user = isset($data['user'])? $data['user']: registry::getInstance()->getService('user')->id;
         $this->save();
     }
 
