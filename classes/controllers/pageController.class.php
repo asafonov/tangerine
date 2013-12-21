@@ -6,8 +6,21 @@ class pageController extends baseController {
 
     public function run() {
         $page = registry::getInstance()->getService('page');
-        $page->load(array('url' => registry::getInstance()->getService('request')->url));
-        return $page->display();
+        $page_id = registry::getInstance()->getService('request')->currentPage;
+        if ($page_id) {
+            $page->id = $page_id;
+            $page->load();
+            return $page->display();
+        } else {
+            return $this->_404();
+        }
+    }
+
+    private function _404() {
+        header($_SERVER["SERVER_PROTOCOL"]." 404 Not Found");
+        header("Status: 404 Not Found");
+        $template = new template('404');
+        return $template->fill();
     }
 
     public function admin() {

@@ -4,14 +4,11 @@ class request extends component {
     
     private $data;
     private $pages;
+    private $current_page;
 
     public function __construct() {
         $list = new activeList('page');
-        $pages = $list->asArray();
-        for ($i=0, $j=count($pages); $i<$j; $i++) {
-            $this->pages[$pages[$i]['url']] = 1;
-        }
-        
+        $this->pages = $list->asArray();       
         if (get_magic_quotes_gpc()) {
             $process = array(&$_GET, &$_POST, &$_COOKIE, &$_REQUEST);
             while (list($key, $val) = each($process)) {
@@ -47,6 +44,12 @@ class request extends component {
         return $this->data['url'];
     }
 
+    public function getCurrentPage() {
+        if ($this->current_page) return $this->current_page;
+        $this->_findPage();
+        return $this->current_page;
+    }
+
     public function getParams() {
         if (isset($this->data['params'])) return $this->data['params'];
         $this->_findPage();
@@ -54,28 +57,26 @@ class request extends component {
     }
 
     private function _findPage() {
-        $this->data['params'] = array();
-        $chunks = explode('/', str_replace('?'.$_SERVER['QUERY_STRING'], '', $_SERVER['REQUEST_URI']));
-        unset($chunks[0]);
-        if ($chunks[count($chunks)-1]=='') {
-            unset($chunks[count($chunks)-1]);
-        }
-        $chunks = array_values($chunks);
-        while (count($chunks)>0) {
-            $url = '/'.implode('/', $chunks);
-            if (isset($this->pages[$url])) {
-                $this->data['url'] = $url;
+        $url = str_replace('?'.$_SERVER['QUERY_STRING'], '', $_SERVER['REQUEST_URI']);
+        for ($i=0, $j=count($this->pages); $i<$j; $i++) {
+            if (preg_match('/^\/{0,1}'.str_replace('/', '\/', $this->pages[$i]['url']).'\/{0,1}$/i', $url, $matches)) {
+                if (isset($matches[1])) {
+                    $this->current_page = $this->pages[$i]['id'];
+                    $this->data['url'] = $matches[1];
+                    $this->data['params'] = explode('/', str_replace($matches[1], '', $matches[0]));
+                    if ($this->data['params'][count($this->data['params'])-1]=='') {
+                        unset($this->data['params'][count($this->data['params'])-1]);
+                    }
+                    unset($this->data['params'][0]);
+                    $this->data['params'] = array_values($this->data['params']);
+                } else {
+                    $this->data['url'] = $matches[0];
+                    $this->current_page = $this->pages[$i]['id'];
+                    $this->data['params'] = array();
+                }
                 break;
-            } else {
-                if ($chunks[count($chunks)-1]!='')
-                    $this->data['params'][] = $chunks[count($chunks)-1];
-                unset($chunks[count($chunks)-1]);
             }
         }
-        if (!isset($this->data['url'])&&isset($this->pages['/'])) {
-            $this->data['url'] = '/';
-        }
-        $this->data['params'] = array_reverse($this->data['params']);
     }
 
 }
