@@ -83,3 +83,9 @@ a {
 .footer a {
     color: white;
 }
+
+.avatar {
+    font-family: monospace, courier;
+    font-size: 3px;
+    line-height: 3px;
+}

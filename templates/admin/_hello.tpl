@@ -2,7 +2,9 @@
 <p>&nbsp;
 <div style="text-align: center;">
 <i>Author</i>: Alex Safonov<br><br>
-<img src="/images/admin/asafonov.jpg" width="200">
+<div class="avatar">
+{avatar}
+</div>
 <br><br>
 <i>Email</i>: <a href="mailto:me@asafonov.org">me@asafonov.org</a><br>
 <i>Website</i>: <a href="http://asafonov.org">http://asafonov.org</a>
