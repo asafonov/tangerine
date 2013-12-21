@@ -14,7 +14,7 @@ class blog extends activeRecord {
             $data = registry::getInstance()->getService('request')->query;
         }
         $this->init($data);
-        $this->user=registry::getInstance()->getService('user')->id;
+        $this->user = isset($data['user']) ? $data['user'] : registry::getInstance()->getService('user')->id;
         $this->save();
     }
 
