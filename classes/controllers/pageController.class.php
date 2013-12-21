@@ -1,21 +1,21 @@
 <?php
 
+/**
+ * The main controller for working with pages
+ *
+ * @author Alexander Safonov <me@asafonov.org>
+ */
 class pageController extends baseController {
 
+    /**
+     * Plugin rights
+     * @var array
+     */
     public $plugin_rights = array(1);
 
-    public function run() {
-        $page = registry::getInstance()->getService('page');
-        $page_id = registry::getInstance()->getService('request')->currentPage;
-        if ($page_id) {
-            $page->id = $page_id;
-            $page->load();
-            return $page->display();
-        } else {
-            return $this->_404();
-        }
-    }
-
+    /**
+     * 404 page
+     */
     private function _404() {
         header($_SERVER["SERVER_PROTOCOL"]." 404 Not Found");
         header("Status: 404 Not Found");
@@ -23,29 +23,9 @@ class pageController extends baseController {
         return $template->fill();
     }
 
-    public function admin() {
-        if (!$this->checkPluginRights()) return false;
-        if (isset($this->params[1])&&$this->params[1]=='blocks'&&isset($this->params[2])) {
-            return $this->_pageBlocks();
-        } else {
-            return parent::admin();
-        }
-    }
-
-    private function _savePageBlocks($page) {
-        if (isset($this->query['delete'])) {
-            unset($page->blocks[$this->query['delete']]);
-            $page->save();
-            header('Location: /admin/page/blocks/'.$this->params[2]);
-        } elseif (isset($this->query['block_name'])) {
-            $page->blocks[$this->query['block_name']] = array('type'=>'', 'data'=>'');
-        } else {
-            $page->blocks = $this->query;
-            $page->save();
-            header('Location: /admin/page');
-        }
-    }
-
+    /**
+     * Get the list of blocks of the page
+     */
     private function _pageBlocks() {
         $page = new page();
         $page->id = $this->params[2];
@@ -71,6 +51,50 @@ class pageController extends baseController {
         }
         $template = new template('admin/page_blocks_list');
         return $template->fill($data);
+    }
+
+    /**
+     * Save the list of blocks of the page
+     */
+    private function _savePageBlocks($page) {
+        if (isset($this->query['delete'])) {
+            unset($page->blocks[$this->query['delete']]);
+            $page->save();
+            header('Location: /admin/page/blocks/'.$this->params[2]);
+        } elseif (isset($this->query['block_name'])) {
+            $page->blocks[$this->query['block_name']] = array('type'=>'', 'data'=>'');
+        } else {
+            $page->blocks = $this->query;
+            $page->save();
+            header('Location: /admin/page');
+        }
+    }
+
+    /**
+     * Administrative interface
+     */
+    public function admin() {
+        if (!$this->checkPluginRights()) return false;
+        if (isset($this->params[1])&&$this->params[1]=='blocks'&&isset($this->params[2])) {
+            return $this->_pageBlocks();
+        } else {
+            return parent::admin();
+        }
+    }
+
+    /**
+     * Entry point of the controller
+     */
+    public function run() {
+        $page = registry::getInstance()->getService('page');
+        $page_id = registry::getInstance()->getService('request')->currentPage;
+        if ($page_id) {
+            $page->id = $page_id;
+            $page->load();
+            return $page->display();
+        } else {
+            return $this->_404();
+        }
     }
 
 }
