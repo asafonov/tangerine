@@ -9,6 +9,7 @@ class recordController extends baseController {
         $list = new activeList('record');
         $spam = $list->setQuery(array('user'=>registry::getInstance()->getService('user')->id, 'blog'=>$this->params[1]))->setOrder(array('date'=>-1))->asArray();
         $item_template = new template('admin/record_item');
+        $data = array();
         for ($i=0, $j=count($spam); $i<$j; $i++) {
             $spam[$i]['date'] = date('Y-m-d', $spam[$i]['date']);
             $data['list'] .= $item_template->fill($spam[$i]);

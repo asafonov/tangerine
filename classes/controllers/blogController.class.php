@@ -18,6 +18,7 @@ class blogController extends baseController {
         $list = new activeList('blog');
         $spam = $list->setQuery(array('user'=>registry::getInstance()->getService('user')->id))->asArray();
         $item_template = new template('admin/blog_item');
+        $data = array();
         for ($i=0, $j=count($spam); $i<$j; $i++) {
             $data['list'] .= $item_template->fill($spam[$i]);
         }
